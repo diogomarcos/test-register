@@ -32,7 +32,7 @@ $('document').ready(function () {
             },
             success: function (response) {
                 if (response=='ok') {
-                    $('#btn-login').html('<img src="../images/btn-ajax-loader.gif" /> &nbsp; Entrando...');
+                    $('#btn-login').html('<img src="../../assets/images/btn-ajax-loader.gif" /> &nbsp; Entrando...');
                     setTimeout('window.location.href="../../home.php";', 4000);
                 } else {
                     $('#error').fadeIn(1000, function () {

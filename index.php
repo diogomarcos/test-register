@@ -12,7 +12,7 @@ if(isset($_SESSION['user_session'])!=""){
 }
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8" />

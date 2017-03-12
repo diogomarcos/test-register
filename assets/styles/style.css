@@ -1,9 +1,11 @@
 body {
     background: #F1F9F9;
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
 
 .form-login {
-    margin: 5% auto;
+    margin: 0 auto;
     padding: 19px 29px 29px;
     background-color: #FFFFFF;
     color: #990000;
