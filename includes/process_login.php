@@ -6,7 +6,8 @@
  */
 
 session_start();
-require_once 'connection.php';
+require_once 'Connection.php';
+
 
 if (isset($_POST['btn-login'])) {
     $user = trim($_POST['user']);
@@ -15,7 +16,8 @@ if (isset($_POST['btn-login'])) {
     //$password = md5($password);
 
     try {
-        $stmt = $connection->prepare("SELECT * FROM login WHERE user=:user");
+        $instance = Connection::getInstance();
+        $stmt = $instance->prepare("SELECT * FROM login WHERE user=:user");
         $stmt->execute(array(":user"=>$user));
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $count = $stmt->rowCount();

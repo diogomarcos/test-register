@@ -11,8 +11,9 @@ if (!isset($_SESSION['user_session'])) {
     header("Location: index.php");
 }
 
-include_once "includes/connection.php";
-$stmt = $connection->prepare("SELECT * FROM login WHERE id=:id");
+include_once "includes/Connection.php";
+$instance = Connection::getInstance();
+$stmt = $instance->prepare("SELECT * FROM login WHERE id=:id");
 $stmt->execute(array(":id"=>$_SESSION['user_session']));
 $row=$stmt->fetch(PDO::FETCH_ASSOC);
 
