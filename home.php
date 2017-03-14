@@ -19,7 +19,34 @@ $row=$stmt->fetch(PDO::FETCH_ASSOC);
 
 include_once "template/header.php";
 ?>
-
-<h1>Conteúdo</h1>
+<h2>Test Register :: Cadastro de Clientes</h2>
+<div class="row">
+    <div class="col-md-5"><img src="assets/images/create-8.jpg" class="img-responsive"></div>
+    <div class="col-md-7">
+        <p align="justify">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sagittis turpis ac ante blandit vehicula.
+            Aenean a egestas neque, quis viverra mi. Phasellus vitae elit libero. Vivamus quis risus id augue gravida laoreet.
+            Vivamus lobortis eros eu tincidunt ultrices. Suspendisse tristique odio vel dolor imperdiet elementum.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus euismod consequat nulla, a ullamcorper risus dictum sit amet.
+            Sed fermentum magna tellus, id fringilla nisl iaculis at.
+            Cras bibendum volutpat massa, ornare convallis enim.
+            Phasellus auctor, ligula a tincidunt mollis, dolor tellus vestibulum purus, eu consequat libero lorem sit amet dui.
+            Ut sit amet elementum massa, nec scelerisque eros. In pharetra tellus risus, a pharetra leo sollicitudin nec.
+        </p>
+        <p align="justify">
+            Curabitur finibus ligula velit, a sodales lectus euismod non. Vivamus ac dui id est vestibulum varius at id libero.
+            Curabitur varius fermentum ex non tempus. Integer rutrum a purus sed tempus.
+            Sed et consectetur lectus. Pellentesque rutrum dui nec nunc vestibulum, id pellentesque nibh molestie.
+            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+            Pellentesque sem ligula, ullamcorper et ultrices vel, tincidunt non magna. Curabitur varius justo id interdum tempor.
+        </p>
+        <p align="justify">
+            Etiam id dolor convallis, viverra nisl sit amet, maximus sem. Proin dapibus bibendum urna.
+            Vestibulum ac quam odio. Quisque a malesuada nibh, quis ullamcorper mauris.
+            Mauris non placerat risus, quis porta turpis. Morbi efficitur porta tellus. I
+            n congue mollis velit ultrices volutpat. Cras quam quam, ullamcorper in porttitor quis, commodo a mi.
+        </p>
+    </div>
+</div>
 
 <?php include_once "template/footer.php"; ?>

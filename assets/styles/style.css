@@ -41,3 +41,7 @@ body {
 #btn-submit {
     height: 45px;
 }
+
+.center-block {
+    float: none!important;
+}
