@@ -25,7 +25,7 @@
 
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="">Administração</a></li>
+                    <li><a href="../admin.php?id=<?php echo $configuration_data['id']; ?>">Configuração</a></li>
                     <li><a href="../cliente.php">Gerenciar Clientes</a></li>
                 </ul>
 

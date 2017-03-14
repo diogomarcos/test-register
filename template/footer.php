@@ -3,7 +3,7 @@
 
     <hr/>
     <footer class="container">
-        <p>&copy;2017 - Diogo Marcos</p>
+        <p>&copy;2017 - Diogo Marcos | Versão <?php echo $configuration_data['version']; ?></p>
     </footer>
 
     <script type="text/javascript" src="../assets/bootstrap/js/bootstrap.min.js"></script>

@@ -17,9 +17,22 @@ $stmt = $instance->prepare("SELECT * FROM login WHERE id=:id");
 $stmt->execute(array(":id"=>$_SESSION['user_session']));
 $row=$stmt->fetch(PDO::FETCH_ASSOC);
 
+include_once "Controller/ConfigurationDao.php";
+$configuration_dao = new \Controller\ConfigurationDao();
+$configuration_data = $configuration_dao->readFirst();
+
 include_once "template/header.php";
 ?>
-<h2>Test Register :: Cadastro de Clientes</h2>
+<h2>Test Register :: <?php echo $configuration_data['website_name']; ?></h2>
+
+<?php if (!empty($_SESSION['message'])) : ?>
+    <div class="alert alert-<?php echo $_SESSION['type']; ?> alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?php echo $_SESSION['message']; ?>
+    </div>
+    <?php unset($_SESSION['message']); unset($_SESSION['type']); ?>
+<?php endif; ?>
+
 <div class="row">
     <div class="col-md-5"><img src="assets/images/create-8.jpg" class="img-responsive"></div>
     <div class="col-md-7">

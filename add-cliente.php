@@ -17,6 +17,10 @@ $stmt = $instance->prepare("SELECT * FROM login WHERE id=:id");
 $stmt->execute(array(":id"=>$_SESSION['user_session']));
 $row=$stmt->fetch(PDO::FETCH_ASSOC);
 
+include_once "Controller/ConfigurationDao.php";
+$configuration_dao = new \Controller\ConfigurationDao();
+$configuration_data = $configuration_dao->readFirst();
+
 include_once "Controller/ClientDao.php";
 include_once "Model/Client.php";
 include_once "Controller/PhoneDao.php";
