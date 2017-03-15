@@ -9,6 +9,7 @@ namespace Controller;
 
 use PDOException;
 
+// Classe com operações crud para Estado
 class StateDao extends AbstractDao
 {
     private $table_name;

@@ -12,6 +12,7 @@ use Exception;
 use PDO;
 use PDOException;
 
+// Classe abstrata para operações do tipo crud
 abstract class AbstractDao
 {
     /** @var $instance_connection PDO */

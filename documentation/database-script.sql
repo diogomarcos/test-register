@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `test-register`.`login` (
   `id` INT NOT NULL,
   `name` VARCHAR(120) NOT NULL,
   `user` VARCHAR(20) NOT NULL,
-  `password` VARCHAR(20) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

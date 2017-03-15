@@ -4,14 +4,14 @@ $(function () {
     $(document).on('click', '#add-input', function () {
         $(dynamicPhone).append(
             '<tr>'+
-            '<td>Telefone Extra</td>'+
-            '<td><input type="text" name="phone[]" class="form-control phone"></td>'+
-            '<td>'+
-            '<a id="remove-input" class="btn btn-danger" href="javascript:void(0)">'+
-            '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>'+
-            'Remover Telefone'+
-            '</a>'+
-            '</td>'+
+                '<td>Telefone Extra</td>'+
+                '<td><input type="text" name="phone[]" class="form-control phone"></td>'+
+                '<td>'+
+                    '<a id="remove-input" class="btn btn-danger" href="javascript:void(0)">'+
+                        '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>'+
+                        'Remover Telefone'+
+                    '</a>'+
+                '</td>'+
             '</tr>'
         );
 

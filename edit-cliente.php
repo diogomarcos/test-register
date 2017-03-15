@@ -5,34 +5,68 @@
  * Site: http://www.diogomarcos.com
  */
 
+use Controller\ClientDao;
+use Controller\ConfigurationDao;
+use Controller\PhoneDao;
+use Controller\Rule;
+use Controller\Util;
+use Model\Client;
+use Model\Phone;
+
+include_once "Controller/ClientDao.php";
+include_once "Controller/ConfigurationDao.php";
+include_once "Controller/PhoneDao.php";
+include_once "Controller/Rule.php";
+include_once "Controller/Util.php";
+include_once "Model/Client.php";
+include_once "Model/Phone.php";
+
 session_start();
 
 if (!isset($_SESSION['user_session'])) {
     header("Location: index.php");
 }
 
+/* inicio - informações do usuário logado */
 include_once "includes/Connection.php";
 $instance = Connection::getInstance();
 $stmt = $instance->prepare("SELECT * FROM login WHERE id=:id");
 $stmt->execute(array(":id"=>$_SESSION['user_session']));
 $row=$stmt->fetch(PDO::FETCH_ASSOC);
+/* fim - informações do usuário logado */
 
-include_once "Controller/ConfigurationDao.php";
-$configuration_dao = new \Controller\ConfigurationDao();
+$configuration_dao = new ConfigurationDao();
 $configuration_data = $configuration_dao->readFirst();
 
-include_once "Controller/ClientDao.php";
-include_once "Model/Client.php";
-$client_dao = new \Controller\ClientDao();
+$client_dao = new ClientDao();
 
-include_once "Controller/PhoneDao.php";
-include_once "Model/Phone.php";
-$phone_dao = new \Controller\PhoneDao();
+$phone_dao = new PhoneDao();
 
 if (isset($_POST['btn-update'])) {
     $created_at = date_create('now', new DateTimeZone('America/Sao_Paulo'));
 
-    $client = new \Model\Client($_POST['name'],  $_POST['cpf'], $_POST['general_registration'], $_POST['date_of_birth'], $created_at->format("Y-m-d H:i:s"));
+    $general_registration_post = "";
+    if (isset($_POST['general_registration'])) {
+        $general_registration_post = $_POST['general_registration'];
+    }
+
+    /*
+     * Regra:
+     * - Caso seja do PR, não deixar cadastrar uma pessoa com menos de 18 anos
+     */
+    if (Rule::RULE_PR == $configuration_data['initial']) {
+        $age = Util::CalculateAge($_POST['date_of_birth']);
+
+        if (Rule::RULE_AGE > $age) {
+            $_SESSION['message'] = 'Não é possível atualiar Cliente com menos de 18 anos.';
+            $_SESSION['type'] = 'danger';
+
+            header("Location: cliente.php");
+            exit();
+        }
+    }
+
+    $client = new Client($_POST['name'],  $_POST['cpf'], $general_registration_post, $_POST['date_of_birth'], $created_at->format("Y-m-d H:i:s"));
     $client->setId($_GET['id']);
     if ($client_dao->update($client)) {
         if (!empty($_POST['phone'])) {
@@ -40,7 +74,7 @@ if (isset($_POST['btn-update'])) {
             $phone_data = $_POST['phone'];
             foreach ($phone_data as $number) {
                 if ($number!="") {
-                    $phone = new \Model\Phone();
+                    $phone = new Phone();
                     $phone->setClientId($client->getId());
                     $phone->setPhone($number);
 
@@ -49,6 +83,7 @@ if (isset($_POST['btn-update'])) {
                         $_SESSION['type'] = 'danger';
 
                         header("Location: cliente.php");
+                        exit();
                     }
                 }
             }
@@ -58,11 +93,13 @@ if (isset($_POST['btn-update'])) {
         $_SESSION['type'] = 'success';
 
         header("Location: cliente.php");
+        exit();
     } else {
         $_SESSION['message'] = 'Não foi possivel atualzar o Cliente.';
         $_SESSION['type'] = 'danger';
 
         header("Location: cliente.php");
+        exit();
     }
 }
 
@@ -71,6 +108,7 @@ if (isset($_GET['id'])) {
     $phone_data = $phone_dao->findAll($id);
 } else {
     header("Location: cliente.php");
+    exit();
 }
 
 include_once "template/header.php";
@@ -88,10 +126,20 @@ include_once "template/header.php";
                         <td>CPF</td>
                         <td><input type="text" name="cpf" class="form-control" data-mask="000.000.000-00" value="<?php echo $cpf; ?>" required></td>
                     </tr>
-                    <tr>
-                        <td>RG</td>
-                        <td><input type="text" name="general_registration" class="form-control" value="<?php echo $general_registration; ?>"></td>
-                    </tr>
+                    <?php
+                    /*
+                     * Regra:
+                     * - Caso o cliente seja de SC, também é necessário cadastrar o RG
+                     */
+                    if (Rule::RULE_SC == $configuration_data['initial']) {
+                    ?>
+                        <tr>
+                            <td>RG</td>
+                            <td><input type="text" name="general_registration" class="form-control" value="<?php echo $general_registration; ?>"></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
                     <tr>
                         <td>Nascimento</td>
                         <td><input type="date" name="date_of_birth" class="form-control" value="<?php echo $date_of_birth; ?>" required></td>

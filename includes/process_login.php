@@ -13,7 +13,7 @@ if (isset($_POST['btn-login'])) {
     $user = trim($_POST['user']);
     $password = trim($_POST['password']);
 
-    //$password = md5($password);
+    $password = md5($password);
 
     try {
         $instance = Connection::getInstance();

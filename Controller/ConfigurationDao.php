@@ -13,6 +13,7 @@ use PDOException;
 
 include_once "AbstractDao.php";
 
+// Classe com operações crud para a Configuração do site
 class ConfigurationDao extends AbstractDao
 {
     private $table_name;
@@ -28,7 +29,8 @@ class ConfigurationDao extends AbstractDao
      */
     public function readFirst()
     {
-        $sql = "SELECT * FROM {$this->table_name} ORDER BY id LIMIT 1";
+        $sql = "SELECT c.id AS id, c.website_name AS website_name, c.version AS version, c.state_id AS state_id, s.initial AS initial 
+                FROM {$this->table_name} AS c INNER JOIN state s ON (c.state_id=s.id) ORDER BY id LIMIT 1";
 
         try {
             $stmt = $this->getInstanceConnection()->prepare($sql);
@@ -49,7 +51,6 @@ class ConfigurationDao extends AbstractDao
      */
     public function update($object)
     {
-        var_dump($object);
         $sql = "UPDATE {$this->table_name} 
                 SET website_name=:website_name, 
                 version=:version, 

@@ -13,6 +13,7 @@ use PDOException;
 
 include_once "AbstractDao.php";
 
+// Classe com operações crud para Cliente
 class ClientDao extends AbstractDao
 {
     private $table_name;

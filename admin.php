@@ -5,40 +5,49 @@
  * Site: http://www.diogomarcos.com
  */
 
+use Controller\ConfigurationDao;
+use Controller\StateDao;
+use Model\Configuration;
+
+include_once "Controller/ConfigurationDao.php";
+include_once "Controller/StateDao.php";
+include_once "Model/Configuration.php";
+
 session_start();
 
 if (!isset($_SESSION['user_session'])) {
     header("Location: index.php");
 }
 
+/* inicio - informações do usuário logado */
 include_once "includes/Connection.php";
 $instance = Connection::getInstance();
 $stmt = $instance->prepare("SELECT * FROM login WHERE id=:id");
 $stmt->execute(array(":id"=>$_SESSION['user_session']));
 $row=$stmt->fetch(PDO::FETCH_ASSOC);
+/* fim - informações do usuário logado */
 
-include_once "Controller/ConfigurationDao.php";
-include_once "Model/Configuration.php";
-$configuration_dao = new \Controller\ConfigurationDao();
+$configuration_dao = new ConfigurationDao();
 $configuration_data = $configuration_dao->readFirst();
 
-include_once "Controller/StateDao.php";
-$state_dao = new \Controller\StateDao();
+$state_dao = new StateDao();
 $state_data = $state_dao->findAll();
 
 if (isset($_POST['btn-update'])) {
-    $configuration = new \Model\Configuration($_POST['website_name'], $_POST['version'], $_POST['state_id']);
+    $configuration = new Configuration($_POST['website_name'], $_POST['version'], $_POST['state_id']);
     $configuration->setId($_GET['id']);
     if ($configuration_dao->update($configuration)) {
         $_SESSION['message'] = 'Configuração atualizado com sucesso.';
         $_SESSION['type'] = 'success';
 
         header("Location: home.php");
+        exit();
     } else {
         $_SESSION['message'] = 'Não foi possivel atualzar a Configuração.';
         $_SESSION['type'] = 'danger';
 
         header("Location: home.php");
+        exit();
     }
 }
 

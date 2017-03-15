@@ -11,6 +11,9 @@ use Model\Phone;
 use PDO;
 use PDOException;
 
+include_once "AbstractDao.php";
+
+// Classe com operações crud para Telefone
 class PhoneDao extends AbstractDao
 {
     private $table_name;

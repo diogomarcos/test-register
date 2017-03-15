@@ -11,9 +11,12 @@ include_once "../Controller/PhoneDao.php";
 
 if ($_REQUEST['delete']) {
     $id = $_REQUEST['delete'];
+
+    // Excluindo os telefones cadastrados
     $phone_dao = new \Controller\PhoneDao();
     $delete_phone = $phone_dao->delete($id);
 
+    // Excluindo o cliente
     $client_dao = new \Controller\ClientDao();
     $delete_cliente = $client_dao->delete($id);
 

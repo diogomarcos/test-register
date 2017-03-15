@@ -4,6 +4,8 @@
  * Date: 12/03/2017
  * Site: http://www.diogomarcos.com
  */
+
+// Classe para a conexão com o banco de dados
 class Connection {
     private static $instance;
 

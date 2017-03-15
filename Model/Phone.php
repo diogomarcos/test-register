@@ -7,6 +7,7 @@
 
 namespace Model;
 
+// Classe modelo para Telefone
 class Phone
 {
     private $id;

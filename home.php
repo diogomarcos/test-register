@@ -5,20 +5,24 @@
  * Site: http://www.diogomarcos.com
  */
 
+use Controller\ConfigurationDao;
+include_once "Controller/ConfigurationDao.php";
+
 session_start();
 
 if (!isset($_SESSION['user_session'])) {
     header("Location: index.php");
 }
 
+/* inicio - informações do usuário logado */
 include_once "includes/Connection.php";
 $instance = Connection::getInstance();
 $stmt = $instance->prepare("SELECT * FROM login WHERE id=:id");
 $stmt->execute(array(":id"=>$_SESSION['user_session']));
 $row=$stmt->fetch(PDO::FETCH_ASSOC);
+/* fim - informações do usuário logado */
 
-include_once "Controller/ConfigurationDao.php";
-$configuration_dao = new \Controller\ConfigurationDao();
+$configuration_dao = new ConfigurationDao();
 $configuration_data = $configuration_dao->readFirst();
 
 include_once "template/header.php";

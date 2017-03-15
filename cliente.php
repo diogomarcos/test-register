@@ -5,28 +5,37 @@
  * Site: http://www.diogomarcos.com
  */
 
+use Controller\ClientDao;
+use Controller\ConfigurationDao;
+use Controller\PhoneDao;
+use Controller\Rule;
+
+include_once "Controller/ClientDao.php";
+include_once "Controller/ConfigurationDao.php";
+include_once "Controller/PhoneDao.php";
+include_once "Controller/Rule.php";
+
 session_start();
 
 if (!isset($_SESSION['user_session'])) {
     header("Location: index.php");
 }
 
+/* inicio - informações do usuário logado */
 include_once "includes/Connection.php";
 $instance = Connection::getInstance();
 $stmt = $instance->prepare("SELECT * FROM login WHERE id=:id");
 $stmt->execute(array(":id"=>$_SESSION['user_session']));
 $row=$stmt->fetch(PDO::FETCH_ASSOC);
+/* fim - informações do usuário logado */
 
-include_once "Controller/ConfigurationDao.php";
-$configuration_dao = new \Controller\ConfigurationDao();
+$configuration_dao = new ConfigurationDao();
 $configuration_data = $configuration_dao->readFirst();
 
-include_once "Controller/ClientDao.php";
-$client_dao = new \Controller\ClientDao();
+$client_dao = new ClientDao();
 $client_data = $client_dao->findAll();
 
-include_once "Controller/PhoneDao.php";
-$phone_dao = new \Controller\PhoneDao();
+$phone_dao = new PhoneDao();
 
 include_once "template/header.php";
 ?>
@@ -57,7 +66,17 @@ include_once "template/header.php";
                 <th>#</th>
                 <th width="25%">Nome</th>
                 <th>CPF</th>
-                <th>RG</th>
+                <?php
+                /*
+                 * Regra:
+                 * - Caso o cliente seja de SC, também é necessário cadastrar o RG
+                 */
+                if (Rule::RULE_SC == $configuration_data['initial']) {
+                ?>
+                    <th>RG</th>
+                <?php
+                }
+                ?>
                 <th>Nascimento</th>
                 <th>Telefone</th>
                 <th>Criado em</th>
@@ -73,7 +92,17 @@ include_once "template/header.php";
                         <td><?php print($row['id']); ?></td>
                         <td><?php print($row['name']); ?></td>
                         <td><?php print($row['cpf']); ?></td>
-                        <td><?php print($row['general_registration']); ?></td>
+                        <?php
+                        /*
+                         * Regra:
+                         * - Caso o cliente seja de SC, também é necessário cadastrar o RG
+                         */
+                        if (Rule::RULE_SC == $configuration_data['initial']) {
+                        ?>
+                            <td><?php print($row['general_registration']); ?></td>
+                        <?php
+                        }
+                        ?>
                         <td><?php print($row['date_of_birth']); ?></td>
                         <td>
                             <?php

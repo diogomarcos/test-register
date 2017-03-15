@@ -7,6 +7,7 @@
 
 namespace Model;
 
+// Classe modelo para configuração do site
 class Configuration
 {
     private $id;
